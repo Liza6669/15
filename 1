@@ -1,0 +1,76 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp21
+{
+   
+    interface IWorkable
+    {
+        void Work();
+    }
+
+    
+    interface IChargeable
+    {
+        void Charge();
+    }
+
+  
+    class Robot : IWorkable, IChargeable
+    {
+        public string Name { get; set; }
+        public int EnergyLevel { get; set; }
+
+        public Robot(string name)
+        {
+            Name = name;
+            EnergyLevel = 100;
+        }
+
+        public void Work()
+        {
+            EnergyLevel -= 20;
+            if (EnergyLevel < 0)
+            {
+                EnergyLevel = 0;
+            }
+
+            Console.WriteLine($"{Name} работает. Уровень энергии: {EnergyLevel}");
+        }
+
+       
+        public void Charge()
+        {
+            EnergyLevel += 50;
+            if (EnergyLevel > 100)
+            {
+                EnergyLevel = 100;
+            }
+
+            Console.WriteLine($"{Name} заряжается. Уровень энергии: {EnergyLevel}");
+        }
+    }
+
+   
+    class Program
+    {
+        static void Main(string[] args)
+        {
+         
+            Robot robot = new Robot("Роботрон");
+
+            
+            robot.Work();
+            robot.Work();
+
+            robot.Charge();
+
+            
+            robot.Work();
+        }
+    }
+
+}
