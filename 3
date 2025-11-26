@@ -1,0 +1,66 @@
+namespace ConsoleApp14
+{
+    interface IPrice
+    {
+        decimal GetPrice();
+    }
+
+    interface IWarrantyPeriod
+    {
+        int GetWarrantyMonths();
+    }
+    class Phone : IPrice, IWarrantyPeriod
+    {
+        private readonly decimal price;
+        private readonly int warrantyMonths;
+
+        public Phone(decimal price, int warrantyMonths)
+        {
+            this.price = price;
+            this.warrantyMonths = warrantyMonths;
+        }
+        public decimal GetPrice() => price;
+        public int GetWarrantyMonths() => warrantyMonths;
+    }
+    class Laptop : IPrice
+    {
+        private readonly decimal price;
+
+        public Laptop(decimal price)
+        {
+            this.price = price;
+        }
+        public decimal GetPrice() => price;
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            List<object> products = new List<object>();
+
+            products.Add(new Phone(29999m, 18));
+            products.Add(new Laptop(59999m));
+            products.Add(new Phone(19999m, 12));
+
+            decimal totalCost = 0m;
+
+            foreach (var product in products)
+            {
+                if (product is IPrice pricedProduct)
+                {
+                    totalCost += pricedProduct.GetPrice();
+
+                    Console.WriteLine($"Цена товара: {pricedProduct.GetPrice()} руб.");
+
+                    if (product is IWarrantyPeriod wp)
+                    {
+                        Console.WriteLine($"Срок гарантии: {wp.GetWarrantyMonths()} месяцев");
+                    }
+                }
+            }
+
+            Console.WriteLine("Общая сумма всех товаров: " + totalCost);
+        }
+    }
+}
