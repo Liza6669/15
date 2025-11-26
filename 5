@@ -1,0 +1,97 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp22
+{
+
+
+
+   
+    interface ITransaction
+    {
+        void Deposit(decimal amount);
+        void Withdraw(decimal amount);
+    }
+
+    
+    interface ITransfer
+    {
+        void TransferTo(BankAccount targetAccount, decimal amount);
+    }
+
+   
+    class BankAccount : ITransaction, ITransfer
+    {
+        private decimal balance;
+
+        public decimal Balance { get { return balance; } }
+
+        public BankAccount(decimal initialBalance)
+        {
+            balance = initialBalance;
+        }
+
+        public void Deposit(decimal amount)
+        {
+            if (amount > 0)
+            {
+                balance += amount;
+                Console.WriteLine($"Внесено {amount}. Новый баланс: {balance}");
+            }
+            else
+            {
+                Console.WriteLine("Сумма внесения должна быть больше 0.");
+            }
+        }
+
+        public void Withdraw(decimal amount)
+        {
+            if (amount > 0 && amount <= balance)
+            {
+                balance -= amount;
+                Console.WriteLine($"Снято {amount}. Новый баланс: {balance}");
+            }
+            else
+            {
+                Console.WriteLine("Недостаточно средств или некорректная сумма снятия.");
+            }
+        }
+
+        public void TransferTo(BankAccount targetAccount, decimal amount)
+        {
+            if (amount > 0 && amount <= balance)
+            {
+                Withdraw(amount);
+                targetAccount.Deposit(amount);
+                Console.WriteLine($"Переведено {amount} на счет {targetAccount.GetHashCode()}.");
+            }
+            else
+            {
+                Console.WriteLine("Невозможно выполнить перевод. Недостаточно средств или некорректная сумма.");
+            }
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            BankAccount account1 = new BankAccount(1000);
+            BankAccount account2 = new BankAccount(500);
+
+            Console.WriteLine($"Баланс счета 1: {account1.Balance}");
+            Console.WriteLine($"Баланс счета 2: {account2.Balance}");
+
+            account1.TransferTo(account2, 300);
+
+            Console.WriteLine($"Баланс счета 1: {account1.Balance}");
+            Console.WriteLine($"Баланс счета 2: {account2.Balance}");
+        }
+    }
+
+
+
+}
