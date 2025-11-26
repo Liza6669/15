@@ -1,0 +1,94 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp22
+{
+
+   
+    interface ISwitchable
+    {
+        void TurnOn();
+        void TurnOff();
+    }
+
+   
+    interface ILevelAdjustable
+    {
+        void SetLevel(int level);
+    }
+
+    
+    class Lamp : ISwitchable, ILevelAdjustable
+    {
+        public int Level { get; private set; }
+
+        public void TurnOn()
+        {
+            Level = 100;
+            Console.WriteLine("Лампа включена. Уровень: " + Level);
+        }
+
+        public void TurnOff()
+        {
+            Level = 0;
+            Console.WriteLine("Лампа выключена. Уровень: " + Level);
+        }
+
+        public void SetLevel(int level)
+        {
+            
+            if (level < 0)
+            {
+                Level = 0;
+            }
+            else if (level > 100)
+            {
+                Level = 100;
+            }
+            else
+            {
+                Level = level;
+            }
+
+            Console.WriteLine("Уровень лампы установлен на: " + Level);
+        }
+    }
+
+   
+    class Fan : ISwitchable
+    {
+        public void TurnOn()
+        {
+            Console.WriteLine("Вентилятор включен");
+        }
+
+        public void TurnOff()
+        {
+            Console.WriteLine("Вентилятор выключен");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            
+            Lamp lamp = new Lamp();
+            Fan fan = new Fan();
+
+            
+            lamp.TurnOn();
+            lamp.SetLevel(30);
+            lamp.TurnOff();
+
+          
+            fan.TurnOn();
+            fan.TurnOff();
+        }
+    }
+
+
+}
