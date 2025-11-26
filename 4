@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp22
+{
+
+
+   
+    interface IAttackable
+    {
+        void Attack();
+    }
+
+
+    interface IHealable
+    {
+        void Heal();
+    }
+
+    
+    class Warrior : IAttackable
+    {
+        public void Attack()
+        {
+            Console.WriteLine("Воин атакует!");
+        }
+    }
+
+   
+    class Mage : IAttackable, IHealable
+    {
+        public void Attack()
+        {
+            Console.WriteLine("Маг атакует магией!");
+        }
+
+        public void Heal()
+        {
+            Console.WriteLine("Маг лечит!");
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Warrior warrior = new Warrior();
+            Mage mage = new Mage();
+
+            
+            Console.WriteLine("Атакующие:");
+            List<IAttackable> attackers = new List<IAttackable> { warrior, mage };
+            foreach (var attacker in attackers)
+            {
+                attacker.Attack();
+            }
+
+            
+            Console.WriteLine("\nЛечащие:");
+            List<IHealable> healers = new List<IHealable> { mage }; 
+            foreach (var healer in healers)
+            {
+                healer.Heal();
+            }
+        }
+    }
+
+
+}
